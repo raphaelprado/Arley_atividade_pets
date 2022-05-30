@@ -90,8 +90,20 @@ const AuthProvider = ({ children }) => {
     return await auth.paymentRemove(idpayment);
   }
 
+  async function medicineCreate(idpet, name) {
+    return await auth.medicineCreate(idpet, name);
+  }
+
+  async function medicineList(idpet) {
+    return await auth.medicineList(idpet);
+  }
+
+   async function medicineRemove(idmedicine) {
+    return await auth.medicineRemove(idmedicine);
+  }
+
   return (
-    <AuthContext.Provider value={{ signIn, signOut, token, mail, loading, userCreate, petList, petCreate, petRemove, paymentCreate, paymentList, paymentRemove }}>
+    <AuthContext.Provider value={{ signIn, signOut, token, mail, loading, userCreate, petList, petCreate, petRemove, paymentCreate, paymentList, paymentRemove, medicineCreate, medicineList, medicineRemove}}>
       {children}
     </AuthContext.Provider>
   );

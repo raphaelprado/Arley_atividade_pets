@@ -80,6 +80,36 @@ async function paymentRemove(idpayment) {
   }
 }
 
+async function medicineCreate(idpet, name) {
+  try{
+    const {data} = await api.post("/medicine/create", { idpet, name });
+    return data;
+  }
+  catch(e){
+    return {error: e.message};
+  }
+}
+
+async function medicineList(idpet) {
+  try{
+    const {data} = await api.post("/medicine/list", {idpet});
+    return data;
+  }
+  catch(e){
+    return {error: e.message};
+  }
+}
+
+async function medicineRemove(idmedicine) {
+  try{
+    const {data} = await api.delete("/medicine/remove", { data: {idmedicine} });
+    return data;
+  }
+  catch(e){
+    return {error: e.message};
+  }
+}
+
 export {
   signIn,
   userCreate,
@@ -88,5 +118,8 @@ export {
   petRemove,
   paymentCreate,
   paymentList,
-  paymentRemove
+  paymentRemove,
+  medicineCreate,
+  medicineList,
+  medicineRemove
 };

@@ -1,65 +1,117 @@
-import React, {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity, ScrollView, FlatList} from 'react-native';
+import React, {useState, useEffect, useContext} from 'react';
+import {View, Text, TextInput, TouchableOpacity, ScrollView, FlatList, Alert, ActivityIndicator} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { FAB } from 'react-native-paper';
+import { useAuth } from "../../hooks";
+import {PetContext} from '../../contexts';
 import styles from './styles';
 
 export default function Medicine(props){
   const [id,setId] = useState('');
   const [register,setRegister] = useState(false);
-  const [list, setList] = useState([
-    {idmedicine:'1',name:'Vermífugo',date:'03/02/2022'},
-    {idmedicine:'2',name:'Alergocort',date:'08/02/2022'},
-    {idmedicine:'3',name:'Bravecto',date:'08/02/2022'},
-    {idmedicine:'4',name:'Simparic',date:'19/03/2022'},
-    {idmedicine:'5',name:'Otolin',date:'03/04/2022'},
-    {idmedicine:'6',name:'Giardicid',date:'03/04/2022'},
-  ]);
+  const [loading, setLoading] = useState(false);
+  const {pet, setPet} = useContext(PetContext);
+  const { medicineCreate, medicineList, medicineRemove } = useAuth();
+  const [list, setList] = useState([ ]);
 
-  const add = (name) => {
-    name = name.trim();
-    const date = new Date().getDate() + "/" + (new Date().getMonth()+1) + "/" + new Date().getFullYear();
-    const idmedicine = list.length+1;
-    const aux = [...list, {idmedicine,name,date}];
-    setList(aux);
-    setRegister(false);
-  };
 
-  const remove = (id) => {
-    const aux = [...list];
-    for(let i = 0; i < aux.length; i++){
-      if( aux[i].idmedicine == id ){
-        aux.splice(i,1);
-        setList(aux);
-        break;
+useEffect(()=>{
+    async function list(){
+      if( pet.idpet ){
+        setLoading(true);
+        const response = await medicineList(pet.idpet);
+        if( response.medicines )
+          setList(response.medicines);
+        setLoading(false);
       }
     }
-  }
+    list();
+  },[pet]);
 
-  const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <View style={styles.itemtext}>
-        <Text style={styles.itemname}>{item.name}</Text>
-        <Text style={styles.itemname}>{item.date}</Text>
+  
+  const add = async (name) => {
+    name = name.trim();
+    if(name){
+      setLoading(true);
+      const response = await medicineCreate(pet.idpet,name);
+      if( response.idmedicine ){
+        const aux = [...list, response];
+        setList(aux);
+        setRegister(false);
+      }
+      else
+        Alert.alert(response.error || "Problemas para cadastrar o medicamento");
+      setLoading(false);
+    }
+    else
+      Alert.alert("Forneça o nome do medicamento");
+  };
+
+  const remove = async (idmedicine,name) => {
+    Alert.alert(
+      null,
+      `Excluir definitivamente o medicamento ${name}?`,
+      [
+        {
+          text: "Sim",
+          onPress: async () => {
+            setLoading(true);
+            const response = await medicineRemove(idmedicine);
+            if( response.idmedicine ){
+              const aux = [...list];
+              for(let i = 0; i < aux.length; i++){
+                if( aux[i].idmedicine == idmedicine ){
+                  aux.splice(i,1);
+                  setList(aux);
+                  break;
+                }
+              }
+            }
+            else
+              Alert.alert(response.error || "Problemas para excluir o medicamento");
+            setLoading(false);
+          },
+        },
+        {
+          text: "Não",
+        }
+      ]);
+  };
+
+  
+
+  const renderItem = ({ item }) => {
+    let date = item.date.split("-");
+    date = `${date[2]}/${date[1]}/${date[0]}`;
+    return (
+      <View style={styles.item}>
+        <View style={styles.itemtext}>
+          <Text style={styles.itemname}>{item.name} - {date}</Text>
+        </View>
+        <TouchableOpacity style={styles.remove} onPress={()=>remove(item.idmedicine,item.name)}>
+          <MaterialCommunityIcons name='delete' color="#555" size={25} />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.remove} onPress={()=>remove(item.idmedicine)}>
-        <MaterialCommunityIcons name='delete' color="#555" size={25} />
-      </TouchableOpacity>
-    </View>
-  );
+    );
+  };
 
   return (
-    register ?
-    <Register lista={list} setLista={setList} setRegister={setRegister} add={add} />
+    loading ? 
+      <Loading />
     :
+    register ?
+      <Register lista={list} setLista={setList} setRegister={setRegister} add={add} />
+    : 
+    pet?.name ?
+    (
     <View style={styles.container}>
       <View style={styles.titlebox}>
-        <Text style={styles.titletext}>Soneca</Text>
+        <Text style={styles.titletext}>{pet?.name}</Text>
       </View>
       {
         list.length > 0 ?
-        <ScrollView style={styles.scroll}>
+        <ScrollView style={[styles.scroll,{flexGrow:1}]}>
           <FlatList
             data={list}
             renderItem={renderItem}
@@ -67,7 +119,7 @@ export default function Medicine(props){
           />
         </ScrollView>
         :
-        <Empty />
+        <Empty message="Clique no botão para cadastrar um medicamento" />
       }
       <FAB
         style={styles.add}
@@ -77,14 +129,19 @@ export default function Medicine(props){
         onPress={() => setRegister(true)}
       />
     </View>
+    )
+    :
+    <View style={styles.container}>
+      <Empty message="Cadastre um pet na aba Pet" />
+    </View>
   );
 }
 
-function Empty(){
+function Empty(props){
   return (
     <View style={styles.msg}>
       <Text style={styles.msgtext}>
-        Clique no botão para cadastrar um medicamento
+        {props.message}
       </Text>
     </View>
   );
@@ -118,5 +175,11 @@ function Register(props){
     </View>
   );
 }
+
+const Loading = () => (
+  <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',backgroundColor: '#FFC125'}}>
+    <ActivityIndicator size="large" color="#666" />
+  </View>
+);
 
 
