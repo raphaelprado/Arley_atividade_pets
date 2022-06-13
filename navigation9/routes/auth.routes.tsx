@@ -6,7 +6,7 @@ import {Home, Login, Register} from '../pages';
 
 export default function AuthRoutes() {
   return (
-    <Navigator headerMode="none" initialRouteName="Home">
+    <Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
       <Screen name="Home" component={Home} />
       <Screen name="Login" component={Login} />
       <Screen name="Register" component={Register} />

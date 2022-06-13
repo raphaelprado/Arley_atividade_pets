@@ -1,42 +1,53 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {FC, useState, useEffect, useContext} from 'react';
 import {View, Text, TextInput, TouchableOpacity, ScrollView, FlatList, Alert, ActivityIndicator} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import { FAB } from 'react-native-paper';
 import { useAuth } from "../../hooks";
-import {PetContext} from '../../contexts';
+import { PetContext } from '../../contexts';
 import styles from './styles';
 
-export default function Medicine(props){
-  const [id,setId] = useState('');
-  const [register,setRegister] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const {pet, setPet} = useContext(PetContext);
+interface MedicineProps {
+  idmedicine: string;
+  name: string;
+  value: number;
+  idpet: string;
+  date: string;
+}
+
+type Props = {
+  add: Function,
+  setRegister: Function,
+  setList: Function,
+  list: Array<MedicineProps>
+};
+
+export default function Medicine(props:any){
+  const [register, setRegister] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const {pet} = useContext(PetContext);
+  // o hook useAuth substitui o uso do AuthContext
   const { medicineCreate, medicineList, medicineRemove } = useAuth();
-  const [list, setList] = useState([ ]);
+  const [list, setList] = useState<MedicineProps[]>([]);
 
-
-useEffect(()=>{
-    async function list(){
-      if( pet.idpet ){
+  useEffect(()=>{
+    async function list() {
+      if (pet.idpet) {
         setLoading(true);
         const response = await medicineList(pet.idpet);
-        if( response.medicines )
-          setList(response.medicines);
+        if (response.medicine) setList(response.medicine);
         setLoading(false);
       }
     }
     list();
-  },[pet]);
+  }, [pet, medicineList]);
 
-  
-  const add = async (name) => {
+  const add = async (name:string,value:number) => {
     name = name.trim();
-    if(name){
+    if( name && value ){
       setLoading(true);
-      const response = await medicineCreate(pet.idpet,name);
+      const response = await medicineCreate(pet.idpet,name,value);
       if( response.idmedicine ){
-        const aux = [...list, response];
+        const aux:MedicineProps[] = [...list, response];
         setList(aux);
         setRegister(false);
       }
@@ -45,12 +56,12 @@ useEffect(()=>{
       setLoading(false);
     }
     else
-      Alert.alert("Forneça o nome do medicamento");
+      Alert.alert("Forneça a descrição e valor do gasto");
   };
 
-  const remove = async (idmedicine,name) => {
+  const remove = async (idmedicine:string, name:string) => {
     Alert.alert(
-      null,
+      '',
       `Excluir definitivamente o medicamento ${name}?`,
       [
         {
@@ -69,7 +80,7 @@ useEffect(()=>{
               }
             }
             else
-              Alert.alert(response.error || "Problemas para excluir o medicamento");
+              Alert.alert(response.error || "Problemas para excluir o pagamento");
             setLoading(false);
           },
         },
@@ -79,17 +90,16 @@ useEffect(()=>{
       ]);
   };
 
-  
-
-  const renderItem = ({ item }) => {
-    let date = item.date.split("-");
-    date = `${date[2]}/${date[1]}/${date[0]}`;
+  const Item:FC<MedicineProps> = (props) => {
+    const date:string[] = props.date.split("-");  // aaaa-mm-dd
+    const fdate:string = `${date[2]}/${date[1]}/${date[0]}`;
     return (
       <View style={styles.item}>
         <View style={styles.itemtext}>
-          <Text style={styles.itemname}>{item.name} - {date}</Text>
+          <Text style={styles.itemname}>{props.name}</Text>
+          <Text style={styles.itemname}>R${props.value} - {fdate}</Text>
         </View>
-        <TouchableOpacity style={styles.remove} onPress={()=>remove(item.idmedicine,item.name)}>
+        <TouchableOpacity style={styles.remove} onPress={()=>remove(props.idmedicine,props.name)}>
           <MaterialCommunityIcons name='delete' color="#555" size={25} />
         </TouchableOpacity>
       </View>
@@ -103,18 +113,18 @@ useEffect(()=>{
     register ?
       <Register lista={list} setLista={setList} setRegister={setRegister} add={add} />
     : 
-    pet?.name ?
+    pet.name ?
     (
     <View style={styles.container}>
       <View style={styles.titlebox}>
-        <Text style={styles.titletext}>{pet?.name}</Text>
+        <Text style={styles.titletext}>{pet.name}</Text>
       </View>
       {
         list.length > 0 ?
         <ScrollView style={[styles.scroll,{flexGrow:1}]}>
           <FlatList
             data={list}
-            renderItem={renderItem}
+            renderItem={ ({item}) => <Item {...item} /> }
             keyExtractor={item => item.idmedicine}
           />
         </ScrollView>
@@ -137,25 +147,26 @@ useEffect(()=>{
   );
 }
 
-function Empty(props){
-  return (
+
+const Empty:FC<{message:string}> = (props) => (
     <View style={styles.msg}>
       <Text style={styles.msgtext}>
         {props.message}
       </Text>
     </View>
-  );
-}
+);
 
-function Register(props){
-  const [name, setName] = useState('');
+
+function Register(props:{add:Function, setRegister:Function, lista: any, setLista: Function}){
+  const [name, setName] = useState<string>('');
+  const [value, setValue] = useState<string>('');
 
   return (
     <View style={styles.registercontainer}>
       <View style={styles.box}>
-        <Text style={styles.title}>CADASTRAR MEDICAMENTO</Text>
+        <Text style={styles.title}>CADASTRAR GASTO</Text>
         <View style={{marginTop:20}}>
-          <Text style={styles.label}>Nome do medicamento</Text>
+          <Text style={styles.label}>Descrição</Text>
           <TextInput
             style={styles.input}
             onChangeText={setName}
@@ -163,8 +174,17 @@ function Register(props){
             autoCapitalize="words"
           />
         </View>
+        <View style={{marginTop:20}}>
+          <Text style={styles.label}>Valor</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={setValue}
+            value={value}
+            keyboardType="decimal-pad"
+          />
+        </View>
         <View style={styles.boxButton}>
-          <TouchableOpacity style={styles.button} onPress={()=>props.add(name)}>
+          <TouchableOpacity style={styles.button} onPress={()=>props.add(name.trim(),parseFloat(value))}>
             <Text style={styles.buttonLabel}>salvar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={()=>props.setRegister(false)}>
@@ -176,7 +196,7 @@ function Register(props){
   );
 }
 
-const Loading = () => (
+const Loading:FC = () => (
   <View style={{flex: 1,justifyContent: 'center',alignItems: 'center',backgroundColor: '#FFC125'}}>
     <ActivityIndicator size="large" color="#666" />
   </View>

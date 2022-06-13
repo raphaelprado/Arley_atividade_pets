@@ -7,10 +7,10 @@ const AuthContext = createContext({});
 
 // extrai o children em <AuthProdiver> children </AuthProvider>
 // no children estarão as rotas definidas por Navigator e Screen 
-const AuthProvider = ({ children }) => {
-  const [token,setToken] = useState(null);
-  const [mail,setMail] = useState('');
-  const [loading, setLoading] = useState(true);
+const AuthProvider = ({ children }: any) => {
+  const [token, setToken] = useState<string>('');
+  const [mail, setMail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   // o useEffect que vai ser disparado assim que o AuthProvider for construído em tela
   useEffect(() => {
@@ -19,7 +19,9 @@ const AuthProvider = ({ children }) => {
       const storagedMail = await SecureStore.getItemAsync('mail');
       
       if (storagedToken && storagedMail) {
-        api.defaults.headers.Authorization = `Bearer ${storagedToken}`;
+        api.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${storagedToken}`;
         setMail(storagedMail);
         setToken(storagedToken);
       }
@@ -27,13 +29,13 @@ const AuthProvider = ({ children }) => {
     }
 
     loadStorageData();
-  },[]);
+  }, []);
 
-  async function signIn(mail,password) {
+  async function signIn(mail: string, password: string) {
     const response = await auth.signIn(mail,password);
     
     if( response.token && response.mail ){
-      api.defaults.headers.Authorization = `Bearer ${response.token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.token}`;
       await SecureStore.setItemAsync('token', response.token);
       await SecureStore.setItemAsync('mail', response.mail);
       setToken(response.token);
@@ -45,17 +47,17 @@ const AuthProvider = ({ children }) => {
   }
 
   async function signOut() {
-    api.defaults.headers.Authorization = '';
-    setToken(null);
-    setMail(null);
+    api.defaults.headers.common["Authorization"] = ""
+    setToken('');
+    setMail('');
     SecureStore.deleteItemAsync('token');
     SecureStore.deleteItemAsync('mail');
   }
 
-  async function userCreate(mail,password) {
+  async function userCreate(mail: string, password: string) {
     const response = await auth.userCreate(mail,password);
     if( response.token && response.mail ){
-      api.defaults.headers.Authorization = `Bearer ${response.token}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.token}`;
       await SecureStore.setItemAsync('token', response.token);
       await SecureStore.setItemAsync('mail', response.mail);
       setToken(response.token);
@@ -70,40 +72,40 @@ const AuthProvider = ({ children }) => {
     return await auth.petList();
   }
 
-  async function petCreate(name) {
+  async function petCreate(name: string) {
    return await auth.petCreate(name);
   }
 
-  async function petRemove(idpet) {
+  async function petRemove(idpet: string) {
     return await auth.petRemove(idpet);
   }
 
-  async function paymentCreate(idpet, description, value) {
+  async function paymentCreate(idpet: string, description: string, value: string) {
     return await auth.paymentCreate(idpet, description, value);
   }
 
-  async function paymentList(idpet) {
+  async function paymentList(idpet: string) {
     return await auth.paymentList(idpet);
   }
 
-  async function paymentRemove(idpayment) {
+  async function paymentRemove(idpayment: string) {
     return await auth.paymentRemove(idpayment);
   }
 
-  async function medicineCreate(idpet, name) {
-    return await auth.medicineCreate(idpet, name);
-  }
-
-  async function medicineList(idpet) {
+  async function medicineList(idpet: string) {
     return await auth.medicineList(idpet);
   }
 
-   async function medicineRemove(idmedicine) {
+  async function medicineCreate(idpet: string, name: string) {
+    return await auth.medicineCreate(idpet, name);
+  }
+
+  async function medicineRemove(idmedicine: string) {
     return await auth.medicineRemove(idmedicine);
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, token, mail, loading, userCreate, petList, petCreate, petRemove, paymentCreate, paymentList, paymentRemove, medicineCreate, medicineList, medicineRemove}}>
+    <AuthContext.Provider value={{ signIn, signOut, token, mail, loading, userCreate, petList, petCreate, petRemove, paymentCreate, paymentList, paymentRemove,  medicineCreate, medicineRemove, medicineList}}>
       {children}
     </AuthContext.Provider>
   );

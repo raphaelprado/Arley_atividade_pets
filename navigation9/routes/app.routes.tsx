@@ -6,7 +6,7 @@ import {Dashboard} from '../pages';
 
 export default function AppRoutes() {
   return (
-    <Navigator headerMode="none" initialRouteName="Dashboard">
+    <Navigator screenOptions={{ headerShown: false }} initialRouteName="Dashboard">
       <Screen name="Dashboard" component={Dashboard} />
     </Navigator>
   );

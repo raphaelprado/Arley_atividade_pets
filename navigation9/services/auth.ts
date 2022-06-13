@@ -1,6 +1,6 @@
 import api from './api';
 
-async function signIn(mail, password) {
+async function signIn(mail: string, password: string) {
   try{
     const {data} = await api.post("/user/login", { mail, password });
     return data;
@@ -10,7 +10,7 @@ async function signIn(mail, password) {
   }
 }
 
-async function userCreate(mail, password) {
+async function userCreate(mail: string, password: string) {
   try{
     const {data} = await api.post("/user/create", { mail, password });
     return data;
@@ -30,7 +30,7 @@ async function petList() {
   }
 }
 
-async function petCreate(name) {
+async function petCreate(name: string) {
   try{
     const {data} = await api.post("/pet/create", { name });
     return data;
@@ -40,7 +40,7 @@ async function petCreate(name) {
   }
 }
 
-async function petRemove(idpet) {
+async function petRemove(idpet: string) {
   try{
     const {data} = await api.delete("/pet/remove", { data: {idpet} });
     return data;
@@ -50,7 +50,7 @@ async function petRemove(idpet) {
   }
 }
 
-async function paymentCreate(idpet, description, value) {
+async function paymentCreate(idpet: string, description: string, value: string) {
   try{
     const {data} = await api.post("/payment/create", { idpet, description, value });
     return data;
@@ -60,7 +60,7 @@ async function paymentCreate(idpet, description, value) {
   }
 }
 
-async function paymentList(idpet) {
+async function paymentList(idpet: string) {
   try{
     const {data} = await api.post("/payment/list", {idpet});
     return data;
@@ -70,7 +70,7 @@ async function paymentList(idpet) {
   }
 }
 
-async function paymentRemove(idpayment) {
+async function paymentRemove(idpayment: string) {
   try{
     const {data} = await api.delete("/payment/remove", { data: {idpayment} });
     return data;
@@ -80,7 +80,7 @@ async function paymentRemove(idpayment) {
   }
 }
 
-async function medicineCreate(idpet, name) {
+async function medicineCreate(idpet: string, name: string) {
   try{
     const {data} = await api.post("/medicine/create", { idpet, name });
     return data;
@@ -90,7 +90,7 @@ async function medicineCreate(idpet, name) {
   }
 }
 
-async function medicineList(idpet) {
+async function medicineList(idpet: string) {
   try{
     const {data} = await api.post("/medicine/list", {idpet});
     return data;
@@ -100,7 +100,7 @@ async function medicineList(idpet) {
   }
 }
 
-async function medicineRemove(idmedicine) {
+async function medicineRemove(idmedicine: string) {
   try{
     const {data} = await api.delete("/medicine/remove", { data: {idmedicine} });
     return data;

@@ -7,14 +7,19 @@ import styles from './styles';
 import { useAuth, useBackHandler } from "../../hooks";
 import {PetContext} from '../../contexts';
 
-export default function Pet(props){
-  const [selected,setSelected] = useState('');
-  const [register,setRegister] = useState(false);
-  const [loading, setLoading] = useState(false);
+interface PetProps {
+  idpet: string;
+  name: string;
+}
+
+export default function Pet(props: any){
+  const [selected, setSelected] = useState<string>("");
+  const [register, setRegister] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const {pet, setPet} = useContext(PetContext);
   // o hook useAuth substitui o uso do AuthContext
   const { signOut, token, petList, petCreate, petRemove } = useAuth();
-  const [list, setList] = useState([]);
+  const [list, setList] = useState<PetProps[]>([]);
 
   useEffect(()=>{
     async function list(){
@@ -38,19 +43,19 @@ export default function Pet(props){
       exit();
     }
     else{
-      props.navigation?.goBack();
+      props.navigation.goBack();
     }
     return true;
   });
 
   const exit = () => {
-    Alert.alert(null, "Deseja encerrar o aplicativo?", [
+    Alert.alert('', "Deseja encerrar o aplicativo?", [
         { text: "sim", onPress: () => signOut() },
         {text: "não",onPress: () => null, style: 'cancel'}
       ]);
   };
 
-  const add = async (name) => {
+  const add = async (name: string) => {
     name = name.trim();
     if( name ){
       setLoading(true);
@@ -70,9 +75,9 @@ export default function Pet(props){
       Alert.alert("Forneça o nome do pet");
   };
 
-  const remove = async (idpet,name) => {
+  const remove = async (idpet: string, name: string) => {
     Alert.alert(
-      null,
+      '',
       `Excluir definitivamente o pet ${name}?`,
       [
         {
@@ -107,7 +112,7 @@ export default function Pet(props){
       ]);
   };
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: any) => (
     <View style={styles.item}>
       <TouchableOpacity style={styles.itemtext} onPress={()=> {setSelected(item.idpet); setPet(item)}}>
         <Text style={[styles.itemname,selected == item.idpet &&{fontWeight:'bold'}]}>{item.name}</Text>
@@ -131,13 +136,13 @@ export default function Pet(props){
     <View style={styles.container}>
       {
         list.length > 0 ?
-        <ScrollView style={styles.scroll}>
           <FlatList
+            style={styles.scroll}
+            scrollEnabled={true}
             data={list}
             renderItem={renderItem}
             keyExtractor={item => item.idpet}
           />
-        </ScrollView>
         :
         <Empty />
       }
@@ -169,8 +174,8 @@ function Empty(){
   );
 }
 
-function Register(props){
-  const [name, setName] = useState('');
+function Register(props: any){
+  const [name, setName] = useState<string>("");
   
   return (
     <View style={styles.registercontainer}>

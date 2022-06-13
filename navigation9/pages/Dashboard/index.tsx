@@ -11,10 +11,11 @@ import {Pet, Payment, Medicine} from '../index';
 
 import {PetContext} from '../../contexts';
 
-import styles from './styles';
+import './styles';
 
-export default function Dashboard(props) {
+export default function Dashboard(props: any) {
   const [pet,setPet] = useState({});
+  
   return (
     <PetContext.Provider value={{pet,setPet}}>
       <Navigator
@@ -33,7 +34,7 @@ export default function Dashboard(props) {
           component={Pet}
           options={{
             tabBarLabel: 'Pets',
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color}: any) => (
               <FontAwesome5 name="dog" color={color} size={25} />
             ),
           }}
@@ -43,7 +44,7 @@ export default function Dashboard(props) {
           component={Payment}
           options={{
             tabBarLabel: 'Gastos',
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color}: any) => (
               <FontAwesome name="dollar" color={color} size={25} />
             ),
           }}
@@ -53,7 +54,7 @@ export default function Dashboard(props) {
           component={Medicine}
           options={{
             tabBarLabel: 'Medicamentos',
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({color}: any) => (
               <AntDesign name="medicinebox" color={color} size={25} />
             ),
           }}
