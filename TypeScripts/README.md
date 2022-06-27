@@ -1,11 +1,106 @@
-# Sample Snack app
+##  TypeScript - Pets
 
-Open the `App.js` file to start writing some code. You can preview the changes directly on your phone or tablet by scanning the **QR code** or use the iOS or Android emulators. When you're done, click **Save** and share the link!
 
-When you're ready to see everything that Expo provides (or if you want to use your own editor) you can **Download** your project and use it with [expo-cli](https://docs.expo.io/get-started/installation).
+-------------------------------------------------------------------------------------------------------------
 
-All projects created in Snack are publicly available, so you can easily share the link to this project via link, or embed it on a web page with the `<>` button.
+### Aplicativo para controlar os gastos e medicamentos de pets em Typescript.
 
-If you're having problems, you can tweet to us [@expo](https://twitter.com/expo) or ask in our [forums](https://forums.expo.io/c/snack).
+-------------------------------------------------------------------------------------------------------------
 
-Snack is Open Source. You can find the code on the [GitHub repo](https://github.com/expo/snack).
+### Hooks
+
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/hooks.jpeg">
+
+### index
+
+Responsável por hospedar e exportar os outros arquivos da pasta Hooks
+
+
+### useAuth
+
+Responsável por retornar as propriedades do "value" do AuthContext.Provider
+
+
+### useBackHandler
+
+Responsável por detectar o toque do usuário do aplicativo no botão voltar da aplicação
+
+-------------------------------------------------------------------------------------------------------------
+
+### Contexts
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/context.PNG">
+
+### Auth
+
+Responsável por conter as propriedades e funções da tela de Login, tela de Criação do Uusário e a função de LogOut do aplicativo
+
+### index
+
+Responsável por hospedar e exportar os outros arquivos da pasta Contexts
+
+### Medicine
+
+Contém os códigos funcionais das funções da página de listagem de medicamentos
+
+### Payments
+
+Contém os códigos funcionais das funções da página de listagem de pagamentos
+
+### Pet
+
+Contém os códigos funcionais das funções da página de listagem de pets
+
+-------------------------------------------------------------------------------------------------------------
+
+### Funcionalidades do Aplicativo
+
+-------------------------------------------------------------------------------------------------------------
+
+
+### Tela Inicial
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telainicial.PNG">
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+### Tela Cadastro
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telacadastro.PNG">
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+### Tela Login
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telalogin.PNG">
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+### Tela de Listagem de Pets
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telalistagempets.PNG">
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+### Tela de Listagem de Gastos
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telagastos.PNG">
+
+
+-------------------------------------------------------------------------------------------------------------
+
+
+### Tela de Listagem de Medicamentos
+
+<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telademedicacoes.PNG">
+
+
+-------------------------------------------------------------------------------------------------------------
