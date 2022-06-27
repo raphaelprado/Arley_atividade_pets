@@ -7,26 +7,6 @@
 
 -------------------------------------------------------------------------------------------------------------
 
-### Hooks
-
-<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/hooks.jpeg">
-
-### index
-
-Responsável por hospedar e exportar os outros arquivos da pasta Hooks
-
-
-### useAuth
-
-Responsável por retornar as propriedades do "value" do AuthContext.Provider
-
-
-### useBackHandler
-
-Responsável por detectar o toque do usuário do aplicativo no botão voltar da aplicação
-
--------------------------------------------------------------------------------------------------------------
-
 ### Contexts
 
 <img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/context.jpeg">
@@ -50,6 +30,28 @@ Contém os códigos funcionais das funções da página de listagem de pagamento
 ### Pet
 
 Contém os códigos funcionais das funções da página de listagem de pets
+
+-------------------------------------------------------------------------------------------------------------
+
+
+
+### Hooks
+
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/hooks.jpeg">
+
+### index
+
+Responsável por hospedar e exportar os outros arquivos da pasta Hooks
+
+
+### useAuth
+
+Responsável por retornar as propriedades do "value" do AuthContext.Provider
+
+
+### useBackHandler
+
+Responsável por detectar o toque do usuário do aplicativo no botão voltar da aplicação
 
 -------------------------------------------------------------------------------------------------------------
 
