@@ -29,7 +29,7 @@ Responsável por detectar o toque do usuário do aplicativo no botão voltar da 
 
 ### Contexts
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/context.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/context.jpeg">
 
 ### Auth
 
@@ -60,7 +60,7 @@ Contém os códigos funcionais das funções da página de listagem de pets
 
 ### Tela Inicial
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telainicial.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/telainicial.jpeg">
 
 
 -------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ Contém os códigos funcionais das funções da página de listagem de pets
 
 ### Tela Cadastro
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telacadastro.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/telacadastro.jpeg">
 
 
 -------------------------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@ Contém os códigos funcionais das funções da página de listagem de pets
 
 ### Tela Login
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telalogin.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/telalogin.jpeg">
 
 
 -------------------------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ Contém os códigos funcionais das funções da página de listagem de pets
 
 ### Tela de Listagem de Pets
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telalistagempets.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/telalistapets.jpeg">
 
 
 -------------------------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ Contém os códigos funcionais das funções da página de listagem de pets
 
 ### Tela de Listagem de Gastos
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telagastos.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/telagastos.jpeg">
 
 
 -------------------------------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ Contém os códigos funcionais das funções da página de listagem de pets
 
 ### Tela de Listagem de Medicamentos
 
-<img src="https://github.com/elias31072002/arleyatv/blob/main/imagens/telademedicacoes.PNG">
+<img src="https://github.com/raphaelprado/Arley_atividade_pets/blob/main/TypeScripts/imagens/telamedicamento.jpeg">
 
 
 -------------------------------------------------------------------------------------------------------------
